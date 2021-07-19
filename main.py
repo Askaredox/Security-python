@@ -1,12 +1,22 @@
 from camera import Camera
 
-cam = Camera(
+cam1 = Camera(
     camera_num=0,
-    f_name='vid1', 
+    f_name_prefijo='vid1', 
     extension='avi', 
-    fps=12, 
-    size=(640,480),
+    fps=22, 
+    size=(1600,1200),
     device_path='/media/pi/Seagate Expansion Drive/video_test'
 )
 
-cam.start()
+cam2 = Camera(
+    camera_num=1,
+    f_name_prefijo='vid2', 
+    extension='avi', 
+    fps=22, 
+    size=(1600,1200),
+    device_path='/media/pi/Seagate Expansion Drive/video_test'
+)
+
+cam1.start()
+cam2.start()

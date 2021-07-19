@@ -8,16 +8,16 @@ class Camera:
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     DELAY = {
         'seconds':0,
-        'minutes':1,
-        'hours':0,
+        'minutes':0,
+        'hours':1,
         'days':0
     }
     file_name = ''
     out = None
 
-    def __init__(self, camera_num, f_name, extension, fps, size, device_path) -> None:
+    def __init__(self, camera_num, f_name_prefijo, extension, fps, size, device_path) -> None:
         self.cap = cv2.VideoCapture(camera_num)
-        self.f_name = f_name
+        self.f_name = f_name_prefijo
         self.extension = extension
         self.fps = fps
         self.size = size
@@ -37,7 +37,7 @@ class Camera:
         self.job.start()
 
     def __get_file_name(self):
-        now = datetime.now().strftime("-%d-%m-%Y_%H:%M:%S")
+        now = datetime.now().strftime("_%Y-%m-%d_%H-%M-%S")
         return self.device_path + '/' + self.f_name + now + '.' + self.extension
 
     def __capture(self):
