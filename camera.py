@@ -5,18 +5,23 @@ from datetime import datetime
 
 class Camera:
     __lastTime = 0
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     DELAY = {
-        'seconds':30,
-        'minutes':0,
+        'seconds':0,
+        'minutes':1,
         'hours':0,
         'days':0
     }
+    file_name = ''
+    out = None
 
-    def __init__(self, camera_num, file_name, extension) -> None:
+    def __init__(self, camera_num, f_name, extension, fps, size, device_path) -> None:
         self.cap = cv2.VideoCapture(camera_num)
-        self.file_name = file_name
+        self.f_name = f_name
         self.extension = extension
+        self.fps = fps
+        self.size = size
+        self.device_path = device_path
 
     def __get_time(self):
         return self.DELAY['seconds'] * 1000 +\
@@ -32,24 +37,28 @@ class Camera:
         self.job.start()
 
     def __get_file_name(self):
-        now = datetime.now().strftime("%d-%m/%Y_%H:%M:%S")
-        return self.file_name + now + self.extension
+        now = datetime.now().strftime("-%d-%m-%Y_%H:%M:%S")
+        return self.device_path + '/' + self.f_name + now + '.' + self.extension
 
     def __capture(self):
-        
-        out = cv2.VideoWriter(self.__get_file_name(), self.fourcc, 12.0, (640,480))
+        self.file_name = self.__get_file_name()
+        self.out = cv2.VideoWriter(self.file_name, self.fourcc, self.fps, self.size)
+        self.__lastTime = self.__millis()
         while(1):
             if((self.__millis() - self.__lastTime) >= self.__get_time()): # saving video
                 self.__lastTime = self.__millis()
-                self.__saving(out)
+                self.__saving()
             else: # recording
-                self.__record(out)
+                self.__record()
 
-    def __record(self, out):
+    def __record(self):
         ret, frame = self.cap.read()
         if ret:
-            out.write(frame)
+            self.out.write(frame)
 
-    def __saving(self, out):
-        out.release()
-        out = cv2.VideoWriter(self.__get_file_name(), self.fourcc, 12.0, (640,480))
+    def __saving(self):
+        self.out.release()
+        self.out = None
+        print('save: {}'.format(self.file_name))
+        self.file_name = self.__get_file_name()
+        self.out = cv2.VideoWriter(self.file_name, self.fourcc, self.fps, self.size)
