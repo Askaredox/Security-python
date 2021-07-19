@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Camera:
     __lastTime = 0
-    fourcc = cv2.cv.CV_FOURCC(*'mp4v')
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     DELAY = {
         'seconds':30,
         'minutes':0,
