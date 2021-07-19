@@ -15,9 +15,9 @@ class Camera:
     file_name = ''
     out = None
 
-    def __init__(self, camera_num, f_name_prefijo, extension, fps, size, device_path) -> None:
+    def __init__(self, camera_num, f_name_prefix, extension, fps, size, device_path) -> None:
         self.cap = cv2.VideoCapture(camera_num)
-        self.f_name = f_name_prefijo
+        self.f_name = f_name_prefix
         self.extension = extension
         self.fps = fps
         self.size = size

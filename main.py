@@ -2,7 +2,7 @@ from camera import Camera
 
 cam1 = Camera(
     camera_num=0,
-    f_name_prefijo='vid1', 
+    f_name_prefix='vid1', 
     extension='avi', 
     fps=22, 
     size=(1600,1200),
@@ -11,7 +11,7 @@ cam1 = Camera(
 
 cam2 = Camera(
     camera_num=1,
-    f_name_prefijo='vid2', 
+    f_name_prefix='vid2', 
     extension='avi', 
     fps=22, 
     size=(1600,1200),
